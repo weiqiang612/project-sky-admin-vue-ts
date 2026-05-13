@@ -1854,6 +1854,11 @@
   dependencies:
     "sprintf-js" "~1.0.2"
 
+"argparse@^2.0.1":
+  "integrity" "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="
+  "resolved" "https://registry.npmmirror.com/argparse/-/argparse-2.0.1.tgz"
+  "version" "2.0.1"
+
 "arr-diff@^2.0.0":
   "integrity" "sha1-jzuCf5Vai9ZpaX5KQlasPOrjVs8="
   "resolved" "https://registry.npmmirror.com/arr-diff/download/arr-diff-2.0.0.tgz"
@@ -3905,11 +3910,6 @@
   dependencies:
     "repeating" "^2.0.0"
 
-"detect-libc@^1.0.3":
-  "integrity" "sha1-+hN8S9aY7fVc1c0CrFWfkaTEups="
-  "resolved" "https://registry.npmjs.org/detect-libc/-/detect-libc-1.0.3.tgz"
-  "version" "1.0.3"
-
 "detect-newline@^2.1.0":
   "integrity" "sha1-9B8cEL5LAOh7XxPaaAdZ8sW/0+I="
   "resolved" "https://registry.npmmirror.com/detect-newline/download/detect-newline-2.1.0.tgz"
@@ -4207,10 +4207,10 @@
   "resolved" "https://registry.npmmirror.com/entities/download/entities-1.1.2.tgz"
   "version" "1.1.2"
 
-"entities@^2.0.0":
-  "integrity" "sha1-aNYITKsbB5dnVA2A5Wo5tCPkq/Q="
-  "resolved" "https://registry.npmmirror.com/entities/download/entities-2.0.0.tgz"
-  "version" "2.0.0"
+"entities@^2.0.0", "entities@~2.1.0":
+  "integrity" "sha512-hCx1oky9PFrJ611mf0ifBLBRW8lUUVRlFolb5gWRfIELabBlbp9xZvrqZLZAs+NxFnbfQoeGd8wDkygjg7U85w=="
+  "resolved" "https://registry.npmmirror.com/entities/-/entities-2.1.0.tgz"
+  "version" "2.1.0"
 
 "errno@^0.1.3", "errno@~0.1.7":
   "integrity" "sha1-RoTXF3mtOa8Xfj8AeZb3xnyFJhg="
@@ -4922,13 +4922,6 @@
   dependencies:
     "pend" "~1.2.0"
 
-"fibers@^4.0.2":
-  "integrity" "sha512-FhICi1K4WZh9D6NC18fh2ODF3EWy1z0gzIdV9P7+s2pRjfRBnCkMDJ6x3bV1DkVymKH8HGrQa/FNOBjYvnJ/tQ=="
-  "resolved" "https://registry.npmjs.org/fibers/-/fibers-4.0.2.tgz"
-  "version" "4.0.2"
-  dependencies:
-    "detect-libc" "^1.0.3"
-
 "figgy-pudding@^3.5.1":
   "integrity" "sha1-hiRwESkBxyeg5JWoB0S9W6odZ5A="
   "resolved" "https://registry.npmmirror.com/figgy-pudding/download/figgy-pudding-3.5.1.tgz"
@@ -5571,10 +5564,15 @@
   "resolved" "https://registry.npmmirror.com/hex-color-regex/download/hex-color-regex-1.1.0.tgz"
   "version" "1.1.0"
 
+"highlight.js@^11.11.1":
+  "integrity" "sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w=="
+  "resolved" "https://registry.npmmirror.com/highlight.js/-/highlight.js-11.11.1.tgz"
+  "version" "11.11.1"
+
 "highlight.js@^9.6.0":
-  "integrity" "sha1-aDaNA5/+HGIRvMB+SD2vld4+QD4="
-  "resolved" "https://registry.npmmirror.com/highlight.js/download/highlight.js-9.16.2.tgz"
-  "version" "9.16.2"
+  "integrity" "sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA=="
+  "resolved" "https://registry.npmmirror.com/highlight.js/-/highlight.js-9.18.5.tgz"
+  "version" "9.18.5"
 
 "hmac-drbg@^1.0.0":
   "integrity" "sha1-0nRXAQJabHdabFRXk+1QL8DGSaE="
@@ -7528,6 +7526,13 @@
   "resolved" "https://registry.npmmirror.com/lines-and-columns/download/lines-and-columns-1.1.6.tgz"
   "version" "1.1.6"
 
+"linkify-it@^3.0.1":
+  "integrity" "sha512-ynTsyrFSdE5oZ/O9GEf00kPngmOfVwazR5GKDq6EYfhlpFug3J2zybX56a2PRRpc9P+FuSoGNAwjlbDs9jJBPQ=="
+  "resolved" "https://registry.npmmirror.com/linkify-it/-/linkify-it-3.0.3.tgz"
+  "version" "3.0.3"
+  dependencies:
+    "uc.micro" "^1.0.1"
+
 "listr-silent-renderer@^1.1.1":
   "integrity" "sha1-kktaN1cVN3C/Go4/v3S4u/P5JC4="
   "resolved" "https://registry.npmmirror.com/listr-silent-renderer/download/listr-silent-renderer-1.1.1.tgz"
@@ -7869,6 +7874,17 @@
   dependencies:
     "object-visit" "^1.0.0"
 
+"markdown-it@^12.3.2":
+  "integrity" "sha512-TchMembfxfNVpHkbtriWltGWc+m3xszaRD0CZup7GFFhzIgQqxIfn3eGj1yZpfuflzPvfkt611B2Q/Bsk1YnGg=="
+  "resolved" "https://registry.npmmirror.com/markdown-it/-/markdown-it-12.3.2.tgz"
+  "version" "12.3.2"
+  dependencies:
+    "argparse" "^2.0.1"
+    "entities" "~2.1.0"
+    "linkify-it" "^3.0.1"
+    "mdurl" "^1.0.1"
+    "uc.micro" "^1.0.5"
+
 "math-random@^1.0.1":
   "integrity" "sha1-XdaUPJOFSCZwFtTjTwV1gwgMUUw="
   "resolved" "https://registry.npmmirror.com/math-random/download/math-random-1.0.4.tgz"
@@ -7896,6 +7912,11 @@
   "integrity" "sha1-aZs8OKxvHXKAkaZGULZdOIUC/Vs="
   "resolved" "https://registry.npmmirror.com/mdn-data/download/mdn-data-2.0.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fmdn-data%2Fdownload%2Fmdn-data-2.0.4.tgz"
   "version" "2.0.4"
+
+"mdurl@^1.0.1":
+  "integrity" "sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g=="
+  "resolved" "https://registry.npmmirror.com/mdurl/-/mdurl-1.0.1.tgz"
+  "version" "1.0.1"
 
 "media-typer@0.3.0":
   "integrity" "sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g="
@@ -11433,6 +11454,11 @@
   "integrity" "sha1-EFsPGTQRnd5UOsjrca86kQCe/lQ="
   "resolved" "https://registry.npmmirror.com/typescript/download/typescript-3.6.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ftypescript%2Fdownload%2Ftypescript-3.6.2.tgz"
   "version" "3.6.2"
+
+"uc.micro@^1.0.1", "uc.micro@^1.0.5":
+  "integrity" "sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA=="
+  "resolved" "https://registry.npmmirror.com/uc.micro/-/uc.micro-1.0.6.tgz"
+  "version" "1.0.6"
 
 "uglify-js@^3.1.4":
   "integrity" "sha1-NcfeF5caSqdonNLq4KWzm7g4wMU="

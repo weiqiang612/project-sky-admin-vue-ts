@@ -26,7 +26,9 @@
               &#129302;
             </div>
             <div class="agent-chat-drawer__title-group">
-              <p class="agent-chat-drawer__title">苍穹管家</p>
+              <p class="agent-chat-drawer__title">
+                苍穹管家
+              </p>
               <p class="agent-chat-drawer__status">
                 <span class="agent-chat-drawer__status-dot" />
                 Online
@@ -60,7 +62,13 @@
                   class="agent-chat-drawer__bubble"
                   :class="message.role === 'user' ? 'is-user' : 'is-agent'"
                 >
-                  {{ renderMessageContent(message.content) }}
+                  <MarkdownRenderer
+                    v-if="message.role === 'agent'"
+                    :content="renderMessageContent(message.content)"
+                  />
+                  <template v-else>
+                    {{ renderMessageContent(message.content) }}
+                  </template>
                   <span
                     v-if="isStreamingMessage(index, message)"
                     class="agent-chat-drawer__cursor"
@@ -170,11 +178,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getToken } from '@/utils/cookies'
 import { ChatModule, ChatMessage } from '@/store/modules/chat'
 import { UserModule } from '@/store/modules/user'
+import MarkdownRenderer from './MarkdownRenderer.vue'
 
 type CryptoWithRandomUUID = Crypto & { randomUUID: () => string }
 
 @Component({
   name: 'AgentChatDrawer',
+  components: { MarkdownRenderer },
 })
 export default class extends Vue {
   private drawerVisible = false
@@ -452,6 +462,9 @@ export default class extends Vue {
   private renderMessageContent(content: string) {
     if (!content) return ''
 
+    // 彻底移除前导空白（防御性措施，处理 APPEND_TOKEN 拼接场景）
+    content = content.trimStart()
+
     // 统一换行
     content = content.replace(/\r\n/g, '\n')
 
@@ -483,6 +496,7 @@ export default class extends Vue {
   private sanitizeInput(content: string) {
     if (!content) return ''
 
+    content = content.trimStart()
     content = content.replace(/\r\n/g, '\n')
     content = content.replace(/^\s*\n+/g, '').replace(/\n+\s*$/g, '')
     content = content.replace(/\n\s*\n+/g, '\n')
@@ -653,6 +667,14 @@ export default class extends Vue {
     color: #111;
   }
 
+  &__bubble.is-agent {
+    align-self: flex-start;
+    background: #fff;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 16px 16px 16px 4px;
+    padding: 9px 13px;
+  }
+
   &__bubble.is-user {
     align-self: flex-end;
     min-width: 116px;
@@ -660,14 +682,6 @@ export default class extends Vue {
     border-radius: 16px 16px 4px 16px;
     white-space: pre-line;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
-  }
-
-  &__bubble.is-agent {
-    align-self: flex-start;
-    background: #fff;
-    border: 0.5px solid #e0e0e0;
-    border-radius: 16px 16px 16px 4px;
-    white-space: pre-line;
   }
 
   &__bubble.is-confirmation {
