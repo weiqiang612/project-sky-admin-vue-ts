@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { VuexModule, Module, Mutation, getModule } from 'vuex-module-decorators'
 import store from '@/store'
 
@@ -5,6 +6,7 @@ export interface ChatMessage {
   role: 'user' | 'agent'
   content: string
   timestamp: number
+  intent?: string | null
 }
 
 export interface ConfirmationFrame {
@@ -33,7 +35,24 @@ class Chat extends VuexModule implements IChatState {
 
   @Mutation
   public APPEND_TOKEN(content: string) {
-    this.messages[this.messages.length - 1].content += content
+    if (this.messages.length === 0) {
+      return
+    }
+    const index = this.messages.length - 1
+    const message = this.messages[index]
+    Vue.set(this.messages, index, {
+      ...message,
+      content: message.content + content,
+    })
+  }
+
+  @Mutation
+  public SET_MESSAGE_INTENT(payload: { index: number; intent: string | null }) {
+    const message = this.messages[payload.index]
+    if (!message) {
+      return
+    }
+    message.intent = payload.intent
   }
 
   @Mutation
