@@ -30,13 +30,13 @@ module.exports = {
       errors: true
     },
     proxy: {
-      '/api': {
+      '/admin': {
         target: process.env.VUE_APP_URL,
         ws: false,
         secure: false,
         changeOrigin: true,
-        pathRewrite:{
-          '^/api':''
+        pathRewrite: {
+          '^/admin': ''
         }
       },
       '/rag-api': {

@@ -5,7 +5,7 @@
                :accept="type"
                :class="{ borderNone: imageUrl }"
                class="avatar-uploader"
-               action="/api/common/upload"
+               :action="uploadUrl + '/common/upload'"
                :show-file-list="false"
                :on-success="handleAvatarSuccess"
                :on-remove="handleRemove"
@@ -35,7 +35,6 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { baseUrl } from '@/config.json'
 import { getToken } from '@/utils/cookies'
 @Component({
   name: 'UploadImage'
@@ -44,6 +43,7 @@ export default class extends Vue {
   @Prop({ default: '.jpg,.jpeg,.png' }) type: string
   @Prop({ default: 2 }) size: number
   @Prop({ default: '' }) propImageUrl: string
+  private readonly uploadUrl = process.env.VUE_APP_URL || ''
 
   private headers = {
     token: getToken()

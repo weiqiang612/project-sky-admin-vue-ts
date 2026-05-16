@@ -82,7 +82,7 @@ service.interceptors.response.use(
     }
     //请求响应中的config的url会带上代理的api需要去掉
     if (response && response.config && response.config.url) {
-      response.config.url = response.config.url.replace('/api', '')
+      response.config.url = response.config.url.replace('/admin', '')
     }
     // 请求完成，删除请求中状态
     const key = getRequestKey(response.config);
@@ -115,7 +115,7 @@ service.interceptors.response.use(
     }
     //请求响应中的config的url会带上代理的api需要去掉
     if (error && error.config && error.config.url) {
-      error.config.url = error.config.url.replace('/api', '')
+      error.config.url = error.config.url.replace('/admin', '')
     }
     // 请求完成，删除请求中状态
     const key = getRequestKey(error.config);

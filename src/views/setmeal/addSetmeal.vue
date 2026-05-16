@@ -182,7 +182,6 @@ import ImageUpload from '@/components/ImgUpload/index.vue'
 import AddDish from './components/AddDish.vue'
 import { querySetmealById, addSetmeal, editSetmeal } from '@/api/setMeal'
 import { getCategoryList } from '@/api/dish'
-import { baseUrl } from '@/config.json'
 
 @Component({
   name: 'addShop',

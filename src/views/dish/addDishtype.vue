@@ -134,7 +134,6 @@ import {
   getCategoryList,
   commonDownload
 } from '@/api/dish'
-import { baseUrl } from '@/config.json'
 import { getToken } from '@/utils/cookies'
 @Component({
   name: 'addShop',
