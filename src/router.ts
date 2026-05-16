@@ -52,6 +52,15 @@ const router = new Router({
             affix: true
           }
         },
+        {
+          path: "rag/offline",
+          component: () =>
+            import(/* webpackChunkName: "ragOffline" */ "@/views/rag/offline/index.vue"),
+          meta: {
+            title: "离线RAG索引",
+            icon: "icon-category"
+          }
+        },
 		{
           path: "/statistics",
           component: () =>

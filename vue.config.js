@@ -38,6 +38,15 @@ module.exports = {
         pathRewrite:{
           '^/api':''
         }
+      },
+      '/rag-api': {
+        target: 'http://localhost:8081',
+        ws: false,
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/rag-api': ''
+        }
       }
     }
   },
