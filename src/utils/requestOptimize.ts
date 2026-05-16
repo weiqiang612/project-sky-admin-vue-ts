@@ -1,30 +1,40 @@
-import md5 from 'md5';
+import md5 from 'md5'
 
-//根据请求的地址，方式，参数，统一计算出当前请求的md5值作为key
+// Build a stable key from url, method, and request payload.
 const getRequestKey = (config) => {
-    if (!config) {
-        // 如果没有获取到请求的相关配置信息，根据时间戳生成
-        return md5(+new Date());
-    }
+  if (!config) {
+    return md5(+new Date())
+  }
 
-    const data = typeof config.data === 'string' ? config.data : JSON.stringify(config.data);
-    // console.log(config,pending,config.url,md5(config.url + '&' + config.method + '&' + data),'config')
-    return md5(config.url + '&' + config.method + '&' + data);
+  const data = typeof config.data === 'string' ? config.data : JSON.stringify(config.data)
+  return md5(config.url + '&' + config.method + '&' + data)
 }
 
-// 存储key值
-const pending = {};
-// 检查key值
-const checkPending = (key) => !!pending[key];
-// 删除key值
+// Map request key to the cancel function of the in-flight request.
+const pending = {}
+
+const checkPending = (key) => !!pending[key]
+
 const removePending = (key) => {
-    // console.log(key,'key')
-    delete pending[key];
-};
+  delete pending[key]
+}
+
+const addPending = (key, cancel) => {
+  pending[key] = cancel
+}
+
+const cancelPending = (key, message = '重复请求') => {
+  if (pending[key]) {
+    pending[key](message)
+    delete pending[key]
+  }
+}
 
 export {
-    getRequestKey,
-    pending,
-    checkPending,
-    removePending
+  getRequestKey,
+  pending,
+  checkPending,
+  removePending,
+  addPending,
+  cancelPending
 }
