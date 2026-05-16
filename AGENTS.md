@@ -152,7 +152,7 @@ discrepancy and ask before adjusting either side.
 
 Add to `.env.development`:
 ```
-VUE_APP_WS_URL=ws://localhost:8080/ws/agent/chat
+VUE_APP_WS_URL=ws://localhost:8081/ws/agent/chat
 ```
 
 Add to `.env.production.uat` (matches the existing `build:uat` script):
