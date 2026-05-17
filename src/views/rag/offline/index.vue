@@ -1,12 +1,14 @@
 <template>
   <div class="rag-offline-page">
-    <div class="page-backdrop page-backdrop-a"></div>
-    <div class="page-backdrop page-backdrop-b"></div>
+    <div class="page-backdrop page-backdrop-a" />
+    <div class="page-backdrop page-backdrop-b" />
 
     <div class="page-shell">
       <section class="hero-card">
         <div class="hero-copy">
-          <div class="eyebrow">Offline RAG Workspace</div>
+          <div class="eyebrow">
+            Offline RAG Workspace
+          </div>
           <h1>离线知识库索引</h1>
           <p class="hero-description">
             上传文档后自动完成解析、分片、Embedding 和向量入库。页面只接入当前后端已开放的离线索引与文档列表接口。
@@ -52,7 +54,7 @@
             type="file"
             :accept="acceptText"
             @change="handleFileChange"
-          />
+          >
 
           <div
             class="drop-zone"
@@ -64,10 +66,12 @@
           >
             <div v-if="selectedFile" class="file-preview">
               <div class="file-badge">
-                <i class="el-icon-document"></i>
+                <i class="el-icon-document" />
               </div>
               <div class="file-meta">
-                <div class="file-name">{{ selectedFile.name }}</div>
+                <div class="file-name">
+                  {{ selectedFile.name }}
+                </div>
                 <div class="file-sub">
                   {{ formatBytes(selectedFile.size) }} · {{ fileFormatHint }}
                 </div>
@@ -79,7 +83,7 @@
 
             <div v-else class="placeholder">
               <div class="placeholder-icon">
-                <i class="el-icon-upload"></i>
+                <i class="el-icon-upload" />
               </div>
               <h3>拖拽文件到这里，或点击选择</h3>
               <p>支持 .jsonl、.qa、.md、.markdown、.pdf、.txt</p>
@@ -100,7 +104,9 @@
                   :value="option.value"
                 />
               </el-select>
-              <p class="field-hint">手动指定会覆盖自动推断。建议和文件内容类型保持一致。</p>
+              <p class="field-hint">
+                手动指定会覆盖自动推断。建议和文件内容类型保持一致。
+              </p>
             </div>
 
             <div class="form-item">
@@ -175,11 +181,17 @@
                   <h3>{{ item.title }}</h3>
                   <p>{{ item.extensions }}</p>
                 </div>
-                <el-tag effect="plain" size="small">{{ item.badge }}</el-tag>
+                <el-tag effect="plain" size="small">
+                  {{ item.badge }}
+                </el-tag>
               </div>
-              <p class="strategy-desc">{{ item.description }}</p>
+              <p class="strategy-desc">
+                {{ item.description }}
+              </p>
               <ul>
-                <li v-for="point in item.points" :key="point">{{ point }}</li>
+                <li v-for="point in item.points" :key="point">
+                  {{ point }}
+                </li>
               </ul>
             </article>
           </div>
@@ -205,7 +217,9 @@
           <el-table-column prop="sourceName" label="文件名" min-width="220" show-overflow-tooltip />
           <el-table-column label="类型" width="110">
             <template slot-scope="scope">
-              <el-tag size="small" effect="plain">{{ documentTypeLabel(scope.row.documentType) }}</el-tag>
+              <el-tag size="small" effect="plain">
+                {{ documentTypeLabel(scope.row.documentType) }}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="indexVersion" label="版本" min-width="180" show-overflow-tooltip />
@@ -268,6 +282,8 @@ export default class extends Vue {
   private isDragging: boolean = false
 
   private readonly acceptText = '.jsonl,.qa,.md,.markdown,.pdf,.txt'
+  private readonly supportedExtensions = ['.jsonl', '.qa', '.md', '.markdown', '.pdf', '.txt']
+  private readonly unsupportedFileMessage = '当前上传的文档格式不支持，请上传 PDF、Markdown、TXT 或 QA(JSONL) 文件'
 
   private readonly documentTypeOptions = [
     { label: '自动识别', value: '', help: '按文件后缀自动判断' },
@@ -387,7 +403,14 @@ export default class extends Vue {
     if (!target.files || !target.files.length) {
       return
     }
-    this.selectedFile = target.files[0]
+    const file = target.files[0]
+    if (!this.isSupportedFile(file.name)) {
+      this.clearSelectedFile()
+      this.$message.error(this.getUnsupportedFileMessage(file.name))
+      target.value = ''
+      return
+    }
+    this.selectedFile = file
     this.lastResult = null
     this.documentType = ''
     target.value = ''
@@ -407,7 +430,13 @@ export default class extends Vue {
     if (!files || !files.length) {
       return
     }
-    this.selectedFile = files[0]
+    const file = files[0]
+    if (!this.isSupportedFile(file.name)) {
+      this.clearSelectedFile()
+      this.$message.error(this.getUnsupportedFileMessage(file.name))
+      return
+    }
+    this.selectedFile = file
     this.lastResult = null
     this.documentType = ''
   }
@@ -426,6 +455,10 @@ export default class extends Vue {
   private async submitIndex() {
     if (!this.selectedFile) {
       this.$message.warning('请先选择文件')
+      return
+    }
+    if (!this.isSupportedFile(this.selectedFile.name)) {
+      this.$message.error(this.getUnsupportedFileMessage(this.selectedFile.name))
       return
     }
 
@@ -447,8 +480,7 @@ export default class extends Vue {
 
       await this.refreshDocuments()
     } catch (error) {
-      const err = error as { message?: string }
-      const message = err && err.message ? err.message : '离线索引提交失败'
+      const message = this.getRequestErrorMessage(error, '离线索引提交失败')
       this.$message.error(message)
     } finally {
       this.submitting = false
@@ -462,8 +494,7 @@ export default class extends Vue {
       const data = response.data
       this.documents = Array.isArray(data) ? data : []
     } catch (error) {
-      const err = error as { message?: string }
-      const message = err && err.message ? err.message : '文档列表加载失败'
+      const message = this.getRequestErrorMessage(error, '文档列表加载失败')
       this.$message.error(message)
     } finally {
       this.loadingDocuments = false
@@ -508,7 +539,36 @@ export default class extends Vue {
     if (lower.endsWith('.txt')) {
       return 'TXT 纯文本'
     }
-    return '将由后端按文件后缀推断'
+    return '当前格式不受支持'
+  }
+
+  private isSupportedFile(fileName: string) {
+    const lower = (fileName || '').toLowerCase()
+    return this.supportedExtensions.some((extension) => lower.endsWith(extension))
+  }
+
+  private getUnsupportedFileMessage(fileName: string) {
+    return `${this.unsupportedFileMessage}：${fileName}`
+  }
+
+  private getRequestErrorMessage(error: unknown, fallbackMessage: string) {
+    const err = error as {
+      message?: string
+      response?: {
+        data?: {
+          message?: string
+          msg?: string
+          desc?: string
+        }
+      }
+    }
+    const response = err && err.response ? err.response : undefined
+    const data = response && response.data ? response.data : undefined
+    const backendMessage =
+      (data && data.message) ||
+      (data && data.msg) ||
+      (data && data.desc)
+    return backendMessage || (err && err.message) || fallbackMessage
   }
 
   private documentTypeLabel(value: RagDocumentType) {
