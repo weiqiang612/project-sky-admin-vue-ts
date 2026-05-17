@@ -19,8 +19,13 @@ export interface RagDocumentSummary {
   indexVersion: string
   status: RagDocumentStatus
   chunkCount: number
+  active: boolean
   createdAt: string
   updatedAt: string
+}
+
+export interface RagDocumentIdsPayload {
+  documentIds: string[]
 }
 
 export const indexOfflineRag = (file: File, documentType?: RagDocumentType | '') => {
@@ -44,5 +49,62 @@ export const getOfflineRagDocuments = () => {
     baseURL: process.env.VUE_APP_RAG_BASE_API || '/rag-api',
     url: '/rag/offline/documents',
     method: 'get'
+  })
+}
+
+export const disableOfflineRagDocument = (documentId: string) => {
+  return request({
+    baseURL: process.env.VUE_APP_RAG_BASE_API || '/rag-api',
+    url: `/rag/offline/documents/${documentId}/disable`,
+    method: 'post'
+  })
+}
+
+export const disableOfflineRagDocuments = (documentIds: string[]) => {
+  return request({
+    baseURL: process.env.VUE_APP_RAG_BASE_API || '/rag-api',
+    url: '/rag/offline/documents/disable',
+    method: 'post',
+    data: {
+      documentIds
+    }
+  })
+}
+
+export const enableOfflineRagDocument = (documentId: string) => {
+  return request({
+    baseURL: process.env.VUE_APP_RAG_BASE_API || '/rag-api',
+    url: `/rag/offline/documents/${documentId}/enable`,
+    method: 'post'
+  })
+}
+
+export const enableOfflineRagDocuments = (documentIds: string[]) => {
+  return request({
+    baseURL: process.env.VUE_APP_RAG_BASE_API || '/rag-api',
+    url: '/rag/offline/documents/enable',
+    method: 'post',
+    data: {
+      documentIds
+    }
+  })
+}
+
+export const deleteOfflineRagDocument = (documentId: string) => {
+  return request({
+    baseURL: process.env.VUE_APP_RAG_BASE_API || '/rag-api',
+    url: `/rag/offline/documents/${documentId}`,
+    method: 'delete'
+  })
+}
+
+export const deleteOfflineRagDocuments = (documentIds: string[]) => {
+  return request({
+    baseURL: process.env.VUE_APP_RAG_BASE_API || '/rag-api',
+    url: '/rag/offline/documents',
+    method: 'delete',
+    data: {
+      documentIds
+    }
   })
 }
